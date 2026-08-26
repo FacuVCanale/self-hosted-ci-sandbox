@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   gate:
-    uses: FacuVCanale/self-hosted-ci/.github/workflows/ci-gate.yml@4aa6f49dbb1466726c52f3677ace373468a92ccc
+    uses: FacuVCanale/self-hosted-ci/.github/workflows/ci-gate.yml@5bd277d5a448771738b3eb957f3b50b0757816e8
     with:
       gate_service_url: https://self-hosted-ci-gate-service-staging.facuvcanale-self-hosted-ci-gate-service.workers.dev
       oidc_audience: self-hosted-ci-gate
@@ -18,5 +18,4 @@ jobs:
       repository_id: ${{ github.repository_id }}
       pr_number: ${{ github.event.pull_request.number }}
       head_sha: ${{ github.event.pull_request.head.sha }}
-      base_sha: ${{ github.event.pull_request.base.sha }}
       trusted_command: test -f README.md
