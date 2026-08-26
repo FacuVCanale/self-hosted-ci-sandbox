@@ -1,0 +1,22 @@
+name: ci gate sandbox
+
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    uses: FacuVCanale/self-hosted-ci/.github/workflows/ci-gate.yml@bb659e4b1745d9e3e3dae355755af08774a9ab55
+    with:
+      gate_service_url: https://self-hosted-ci-gate-service-staging.facuvcanale-self-hosted-ci-gate-service.workers.dev
+      oidc_audience: self-hosted-ci-gate
+      runner_pool_id: hosted-default
+      repository_id: ${{ github.repository_id }}
+      pr_number: ${{ github.event.pull_request.number }}
+      head_sha: ${{ github.event.pull_request.head.sha }}
+      base_sha: ${{ github.event.pull_request.base.sha }}
+      tested_merge_sha: ${{ github.event.pull_request.merge_commit_sha }}
+      trusted_command: test -f README.md
