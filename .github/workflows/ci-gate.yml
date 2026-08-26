@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   gate:
-    uses: FacuVCanale/self-hosted-ci/.github/workflows/ci-gate.yml@d372e154014dd34a1fca6affd7cfa8f919e21c72
+    uses: FacuVCanale/self-hosted-ci/.github/workflows/ci-gate.yml@658354a833c899155fad03b6a6056ee572539441
     with:
       gate_service_url: https://self-hosted-ci-gate-service-staging.facuvcanale-self-hosted-ci-gate-service.workers.dev
       oidc_audience: self-hosted-ci-gate
