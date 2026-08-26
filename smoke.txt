@@ -1,1 +1,2 @@
 hosted ci gate smoke
+server canonical merge smoke
