@@ -1,0 +1,25 @@
+name: self-hosted CI sandbox smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-wsl:
+    runs-on: [self-hosted, linux, x64, self-hosted-ci-sandbox]
+    timeout-minutes: 10
+    steps:
+      - name: Verify dedicated runner identity and isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -un)" = "ci-runner"
+          grep -qi wsl2 /proc/sys/kernel/osrelease
+          test "${WSL_DISTRO_NAME:-}" = "Ubuntu-24.04"
+          test ! -e /mnt/c/Windows/System32/cmd.exe
+          test ! -e /proc/sys/fs/binfmt_misc/WSLInterop
+          ! findmnt -rn -t drvfs,9p -o TARGET | grep -Eq '^/mnt/[a-z]$'
+          test "$(id -nG)" = "ci-runner"
+          printf 'isolated self-hosted runner smoke passed\n'
