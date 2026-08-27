@@ -4,3 +4,4 @@ Disposable public repository for validating self-hosted CI activation and rollba
 
 Local merge gate smoke: v2.
 Fresh generation after staging activation.
+Fresh generation with PKCS8 App key.
