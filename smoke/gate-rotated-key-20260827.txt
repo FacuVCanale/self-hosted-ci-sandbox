@@ -1,0 +1,1 @@
+Hosted Gate smoke after the 2026-08-27 GitHub App key rotation.
