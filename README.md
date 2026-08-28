@@ -2,4 +2,4 @@
 
 Disposable public repository for validating self-hosted CI activation and rollback.
 
-Canary validation target: `7f52674`.
+Canary validation target: `81e2e90`.
