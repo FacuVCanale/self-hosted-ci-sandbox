@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Revalidate signed package and exact live GitHub identities
         id: validate
-        uses: FacuVCanale/self-hosted-ci/actions/jit-canary-validate@3d36e608dcc13485bca7d3368657ddf04da9d6aa
+        uses: FacuVCanale/self-hosted-ci/actions/jit-canary-validate@46aef4dfe5847c657e4e0fcf5075d7e3408a9b53
         with:
           canary-package: ${{ inputs.canary_package }}
           reviewer-public-key: ${{ vars.JIT_CANARY_REVIEWER_PUBLIC_KEY_B64 }}
@@ -85,7 +85,7 @@ jobs:
             failure) exit 1 ;;
             cancel) exec sleep 240 ;;
             timeout) exec sleep 240 ;;
-            force-cancel) trap '' TERM; exec sleep 240 ;;
+            force-cancel) trap '' INT TERM; exec sleep 240 ;;
             reboot) printf '%s\n' reboot-checkpoint-created ;;
             *) exit 64 ;;
           esac
