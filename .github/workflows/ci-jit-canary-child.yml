@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Revalidate signed package and exact live GitHub identities
         id: validate
-        uses: FacuVCanale/self-hosted-ci/actions/jit-canary-validate@86a90dab9d6d2532c9dbab26a80aee7ebf6627b8
+        uses: FacuVCanale/self-hosted-ci/actions/jit-canary-validate@1c6dba864aa083a2a3ea1c5308127f18cd452f09
         with:
           canary-package: ${{ inputs.canary_package }}
           reviewer-public-key: ${{ vars.JIT_CANARY_REVIEWER_PUBLIC_KEY_B64 }}
