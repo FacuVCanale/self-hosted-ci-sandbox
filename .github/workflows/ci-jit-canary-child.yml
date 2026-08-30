@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Revalidate signed package and exact live GitHub identities
         id: validate
-        uses: FacuVCanale/self-hosted-ci/actions/jit-canary-validate@46aef4dfe5847c657e4e0fcf5075d7e3408a9b53
+        uses: FacuVCanale/self-hosted-ci/actions/jit-canary-validate@7d1b7f6e920e0195a39b57d4ae604a36752c49ce
         with:
           canary-package: ${{ inputs.canary_package }}
           reviewer-public-key: ${{ vars.JIT_CANARY_REVIEWER_PUBLIC_KEY_B64 }}
@@ -44,13 +44,15 @@ jobs:
   local-canary:
     name: local-canary
     needs: validate-package
+    # A force-cancel canary must remain scheduled after normal cancellation so
+    # the fallback endpoint is exercised only after its normative grace period.
+    if: ${{ needs.validate-package.result == 'success' && ((needs.validate-package.outputs.scenario == 'force-cancel' && always()) || (needs.validate-package.outputs.scenario != 'force-cancel' && success())) }}
     runs-on: ${{ needs.validate-package.outputs.runner_label }}
     timeout-minutes: 3
     concurrency:
       group: jit-canary-${{ needs.validate-package.outputs.repository }}-${{ needs.validate-package.outputs.pr_number }}
       cancel-in-progress: false
     env:
-      CI_GATE_TRUSTED_TESTED_SHA: ${{ needs.validate-package.outputs.tested_merge_sha }}
       CANARY_SCENARIO: ${{ needs.validate-package.outputs.scenario }}
       EXPECTED_BASE_SHA: ${{ needs.validate-package.outputs.base_sha }}
       EXPECTED_HEAD_SHA: ${{ needs.validate-package.outputs.head_sha }}
@@ -86,7 +88,7 @@ jobs:
             failure) exit 1 ;;
             cancel) exec sleep 240 ;;
             timeout) exec sleep 240 ;;
-            force-cancel) trap '' INT TERM; exec sleep 240 ;;
+            force-cancel) exec sleep 240 ;;
             reboot) printf '%s\n' reboot-checkpoint-created ;;
             *) exit 64 ;;
           esac
