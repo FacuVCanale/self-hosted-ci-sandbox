@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Revalidate exact repository PR head base and workflow
         id: validate
-        uses: FacuVCanale/self-hosted-ci/actions/jit-pilot-validate@04b1ab3575eb9589257d1f946dce0102e15813fc
+        uses: FacuVCanale/self-hosted-ci/actions/jit-pilot-validate@bdceffbca7ce053017166e720bc504ac9ddba7a7
         with:
           pilot-package: ${{ inputs.pilot_package }}
 
