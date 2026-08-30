@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Revalidate exact repository PR head base and workflow
         id: validate
-        uses: FacuVCanale/self-hosted-ci/actions/jit-pilot-validate@a478269b65ba13352b51ec7a287065defc888150
+        uses: FacuVCanale/self-hosted-ci/actions/jit-pilot-validate@25951108e64192a58f61a09c52e568d6f0b05857
         with:
           pilot-package: ${{ inputs.pilot_package }}
 
@@ -71,7 +71,7 @@ jobs:
           git checkout --detach "$EXPECTED_MERGE_SHA"
           test "$(git rev-parse HEAD)" = "$EXPECTED_MERGE_SHA"
       - name: Run pilot quality command
-        run: make test
+        run: python3 scripts/check-public-distribution.py
 
   local-quality:
     name: local-quality
@@ -111,7 +111,7 @@ jobs:
           git checkout --detach "$EXPECTED_MERGE_SHA"
           test "$(git rev-parse HEAD)" = "$EXPECTED_MERGE_SHA"
       - name: Run pilot quality command
-        run: make test
+        run: python3 scripts/check-public-distribution.py
 
 # A backend is selected before dispatch. There is intentionally no fallback or
 # second dispatch after this workflow starts.
